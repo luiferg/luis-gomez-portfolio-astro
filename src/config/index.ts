@@ -3,6 +3,6 @@
  * Central export for all config modules
  */
 
-export * from './site';
-export * from './seo';
-export * from './social';
+export * from './site'
+export * from './seo'
+export * from './social'

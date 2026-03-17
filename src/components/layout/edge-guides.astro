@@ -6,20 +6,22 @@
  */
 
 interface Props {
-  show?: boolean;
+  show?: boolean
 }
 
-const { show = true } = Astro.props;
+const { show = true } = Astro.props
 ---
 
-{show && (
-  <div class="edge-guides fixed inset-0 pointer-events-none z-0 container">
-    {/* Left edge guide */}
-    <div class="hidden md:block absolute top-0 bottom-0 left-[var(--spacing-container-desktop)] w-px bg-border/30"></div>
-    {/* Right edge guide */}
-    <div class="hidden md:block absolute top-0 bottom-0 right-[var(--spacing-container-desktop)] w-px bg-border/30"></div>
-  </div>
-)}
+{
+  show && (
+    <div class='edge-guides fixed inset-0 pointer-events-none z-0 container'>
+      {/* Left edge guide */}
+      <div class='hidden md:block absolute top-0 bottom-0 left-[var(--spacing-container-desktop)] w-px bg-border/30' />
+      {/* Right edge guide */}
+      <div class='hidden md:block absolute top-0 bottom-0 right-[var(--spacing-container-desktop)] w-px bg-border/30' />
+    </div>
+  )
+}
 
 <style>
   .edge-guides {

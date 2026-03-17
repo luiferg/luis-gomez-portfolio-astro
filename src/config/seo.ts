@@ -2,12 +2,12 @@
  * SEO Configuration
  * Single source of truth for SEO metadata
  * Based on PRD.md Appendix A
- * 
+ *
  * Note: OG images should be generated as PNG for best compatibility
  * Currently using SVG placeholders - replace with real images
  */
 
-import { SITE_CONFIG } from './site';
+import { SITE_CONFIG } from './site'
 
 export const SEO_DEFAULTS = {
   title: `${SITE_CONFIG.name} | ${SITE_CONFIG.title}`,
@@ -15,7 +15,7 @@ export const SEO_DEFAULTS = {
   ogImage: '/og/default.svg',
   ogType: 'website',
   twitterCard: 'summary_large_image',
-} as const;
+} as const
 
 export const PAGE_SEO = {
   home: {
@@ -30,6 +30,6 @@ export const PAGE_SEO = {
     title: `404 | ${SITE_CONFIG.name}`,
     description: 'Page not found.',
   },
-} as const;
+} as const
 
-export type PageSeo = typeof PAGE_SEO;
+export type PageSeo = typeof PAGE_SEO

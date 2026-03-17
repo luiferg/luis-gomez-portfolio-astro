@@ -4,15 +4,15 @@
  * Following Emil's approach: subtle, fast, purposeful
  */
 
-'use client';
+'use client'
 
-import { useRef } from 'react';
-import { motion, useInView, type HTMLMotionProps } from 'motion/react';
+import { useRef } from 'react'
+import { motion, useInView, type HTMLMotionProps } from 'motion/react'
 
 interface ScrollRevealProps extends HTMLMotionProps<'div'> {
-  children: React.ReactNode;
-  delay?: number;
-  direction?: 'up' | 'down' | 'left' | 'right' | 'none';
+  children: React.ReactNode
+  delay?: number
+  direction?: 'up' | 'down' | 'left' | 'right' | 'none'
 }
 
 export function ScrollReveal({
@@ -22,8 +22,8 @@ export function ScrollReveal({
   className = '',
   ...props
 }: ScrollRevealProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   const directions = {
     up: { y: 20, x: 0 },
@@ -31,7 +31,7 @@ export function ScrollReveal({
     left: { y: 0, x: 20 },
     right: { y: 0, x: -20 },
     none: { y: 0, x: 0 },
-  };
+  }
 
   return (
     <motion.div
@@ -48,5 +48,5 @@ export function ScrollReveal({
     >
       {children}
     </motion.div>
-  );
+  )
 }

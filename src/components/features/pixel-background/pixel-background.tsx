@@ -3,229 +3,227 @@
  * Canvas-based living pixel effect
  * Performance-optimized with requestAnimationFrame
  *
- * Supports two modes:
- * - 'framed': contained within a bordered box
- * - 'full-bleed': full viewport, fades out on scroll
+ * Supports modes:
+ * - 'guided': Pixels between edge guides, gradient fade at bottom (recommended)
+ * - 'none': No pixel background
  */
 
-"use client";
+'use client'
 
-import { cn } from "@/lib/utils";
-import { useEffect, useRef, useCallback, useState } from "react";
+import { cn } from '@/lib/utils'
+import { useEffect, useRef, useCallback, useState } from 'react'
 
 interface PixelBackgroundProps {
-  mode?: "framed" | "full-bleed";
-  density?: number;
-  speed?: number;
-  className?: string;
+  mode?: 'guided' | 'none'
+  density?: number
+  speed?: number
+  height?: number
+  className?: string
 }
 
 interface Pixel {
-  x: number;
-  y: number;
-  brightness: number;
-  targetBrightness: number;
-  size: number;
+  x: number
+  y: number
+  brightness: number
+  targetBrightness: number
+  size: number
 }
 
 // Purple tint color values from PRD
-const PIXEL_R = 40;
-const PIXEL_G = 15;
-const PIXEL_B = 80;
+const PIXEL_R = 40
+const PIXEL_G = 15
+const PIXEL_B = 80
 
 export function PixelBackground({
-  mode = "framed",
+  mode = 'guided',
   density = 28,
   speed = 1,
-  className = "",
+  height = 650,
+  className = '',
 }: PixelBackgroundProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const pixelsRef = useRef<Pixel[]>([]);
-  const animationRef = useRef<number>(0);
-  const isReducedMotion = useRef(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const pixelsRef = useRef<Pixel[]>([])
+  const animationRef = useRef<number>(0)
+  const isReducedMotion = useRef(false)
+
+  // Match edge-guide spacing from global.css
+  const EDGE_GUIDE_OFFSET = '3rem' // var(--spacing-container-desktop)
 
   const createPixels = useCallback(
     (width: number, height: number) => {
-      const pixels: Pixel[] = [];
+      const pixels: Pixel[] = []
       // Smaller pixel size = more texture (PRD: ~20-25px)
-      const size = Math.max(4, Math.floor(600 / density));
+      const size = Math.max(4, Math.floor(600 / density))
 
       for (let x = 0; x < width; x += size) {
         for (let y = 0; y < height; y += size) {
-          // Subtler brightness variation: 0.03-0.12 (from PRD)
-          const brightness = Math.random() * 0.09 + 0.03;
+          // Brightness range: 0.15-0.4 for better visibility on dark bg
+          const brightness = Math.random() * 0.25 + 0.15
           pixels.push({
             x,
             y,
             brightness,
             targetBrightness: brightness,
             size,
-          });
+          })
         }
       }
 
-      return pixels;
+      return pixels
     },
     [density],
-  );
+  )
 
   const draw = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    const canvas = canvasRef.current
+    if (!canvas) return
 
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
 
-    const width = canvas.width;
-    const height = canvas.height;
+    const width = canvas.width
+    const canvasHeight = canvas.height
 
     // Clear with background color
-    ctx.fillStyle = "#0a0a0a";
-    ctx.fillRect(0, 0, width, height);
-
-    // Calculate opacity based on mode and scroll
-    let opacity = 1;
-    if (mode === "full-bleed") {
-      // Fade from 1 to 0 over first 100vh of scroll
-      opacity = Math.max(0, 1 - scrollProgress);
-    }
+    ctx.fillStyle = '#0a0a0a'
+    ctx.fillRect(0, 0, width, canvasHeight)
 
     // Draw pixels with purple tint
     pixelsRef.current.forEach((pixel) => {
       // Smooth brightness transition
       if (!isReducedMotion.current) {
         pixel.brightness +=
-          (pixel.targetBrightness - pixel.brightness) * 0.02 * speed;
+          (pixel.targetBrightness - pixel.brightness) * 0.02 * speed
 
         // Randomly change target brightness (slower for subtler effect)
         if (Math.random() < 0.003 * speed) {
-          // Subtler brightness range: 0.03-0.12
-          pixel.targetBrightness = Math.random() * 0.09 + 0.03;
+          // Brightness range: 0.15-0.4 for visibility
+          pixel.targetBrightness = Math.random() * 0.25 + 0.15
         }
       }
 
-      // Apply mode-based opacity
-      const finalOpacity = pixel.brightness * opacity;
+      // Apply pixel brightness
+      const finalOpacity = pixel.brightness
 
       // Purple tint (R:40, G:15, B:80 from PRD)
-      const r = Math.floor(finalOpacity * PIXEL_R);
-      const g = Math.floor(finalOpacity * PIXEL_G);
-      const b = Math.floor(finalOpacity * PIXEL_B);
+      const r = Math.floor(finalOpacity * PIXEL_R)
+      const g = Math.floor(finalOpacity * PIXEL_G)
+      const b = Math.floor(finalOpacity * PIXEL_B)
 
-      ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${finalOpacity})`;
+      ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${finalOpacity})`
       // -1 for slight gap between pixels
-      ctx.fillRect(pixel.x, pixel.y, pixel.size - 1, pixel.size - 1);
-    });
+      ctx.fillRect(pixel.x, pixel.y, pixel.size - 1, pixel.size - 1)
+    })
 
     // Continue animation
     if (!isReducedMotion.current) {
-      animationRef.current = requestAnimationFrame(draw);
+      animationRef.current = requestAnimationFrame(draw)
     }
-  }, [speed, mode, scrollProgress]);
+  }, [speed])
 
   const handleResize = useCallback(() => {
-    const canvas = canvasRef.current;
-    const container = containerRef.current;
-    if (!canvas) return;
+    const canvas = canvasRef.current
+    const container = containerRef.current
+    if (!canvas) return
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, 2)
 
-    let width: number;
-    let height: number;
+    // Use provided height prop or container height
+    let width: number
+    let canvasHeight: number
 
-    if (mode === "framed" && container) {
-      // For framed mode, use container dimensions
-      const rect = container.getBoundingClientRect();
-      width = rect.width;
-      height = rect.height;
+    if (container) {
+      const rect = container.getBoundingClientRect()
+      width = rect.width
+      canvasHeight = height
     } else {
-      // For full-bleed, use viewport
-      width = window.innerWidth;
-      height = window.innerHeight;
+      width = window.innerWidth
+      canvasHeight = height
     }
 
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
+    canvas.width = width * dpr
+    canvas.height = canvasHeight * dpr
+    canvas.style.width = `${width}px`
+    canvas.style.height = `${canvasHeight}px`
 
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext('2d')
     if (ctx) {
-      ctx.scale(dpr, dpr);
+      ctx.scale(dpr, dpr)
     }
 
-    pixelsRef.current = createPixels(width, height);
-  }, [mode, createPixels]);
-
-  const handleScroll = useCallback(() => {
-    if (mode === "full-bleed") {
-      const scrollY = window.scrollY;
-      const viewportHeight = window.innerHeight;
-      const progress = scrollY / viewportHeight;
-      setScrollProgress(Math.min(progress, 1));
-    }
-  }, [mode]);
+    pixelsRef.current = createPixels(width, canvasHeight)
+  }, [height, createPixels])
 
   useEffect(() => {
+    // Don't render if mode is 'none'
+    if (mode === 'none') return
+
     // Check for reduced motion preference
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    isReducedMotion.current = mediaQuery.matches;
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    isReducedMotion.current = mediaQuery.matches
 
     const handleMotionChange = (e: MediaQueryListEvent) => {
-      isReducedMotion.current = e.matches;
+      isReducedMotion.current = e.matches
       if (e.matches) {
-        cancelAnimationFrame(animationRef.current);
+        cancelAnimationFrame(animationRef.current)
       } else {
-        draw();
+        draw()
       }
-    };
+    }
 
-    mediaQuery.addEventListener("change", handleMotionChange);
+    mediaQuery.addEventListener('change', handleMotionChange)
 
     // Initial setup
-    const canvas = canvasRef.current;
+    const canvas = canvasRef.current
     if (canvas) {
-      handleResize();
-      window.addEventListener("resize", handleResize);
-      window.addEventListener("scroll", handleScroll);
+      handleResize()
+      window.addEventListener('resize', handleResize)
 
       if (!isReducedMotion.current) {
-        draw();
+        draw()
       }
     }
 
     return () => {
-      cancelAnimationFrame(animationRef.current);
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("scroll", handleScroll);
-      mediaQuery.removeEventListener("change", handleMotionChange);
-    };
-  }, [draw, handleResize, handleScroll]);
+      cancelAnimationFrame(animationRef.current)
+      window.removeEventListener('resize', handleResize)
+      mediaQuery.removeEventListener('change', handleMotionChange)
+    }
+  }, [draw, handleResize, mode])
 
-  const containerClasses =
-    mode === "framed"
-      ? "flex-1 overflow-hidden border-none absolute left-0 top-0 w-full h-full"
-      : "";
+  // Don't render anything if mode is 'none'
+  if (mode === 'none') {
+    return null
+  }
 
   return (
     <div
       ref={containerRef}
-      className={containerClasses}
-      style={
-        mode === "framed" ? { height: "100%", minHeight: "400px" } : undefined
-      }
+      className='absolute inset-0 overflow-hidden'
+      style={{ height: `${height}px` }}
     >
       <canvas
         ref={canvasRef}
-        className={cn(
-          mode === "full-bleed" ? "fixed inset-0 -z-1" : "absolute inset-0 z-1",
-          "pointer-events-none",
-          className,
-        )}
-        aria-hidden="true"
+        className={cn('absolute inset-0 pointer-events-none', className)}
+        style={{
+          // Gradient fade at bottom - pixels visible at top, fade to hidden at bottom
+          // In mask-image: opaque = visible, transparent = hidden
+          maskImage: `linear-gradient(to bottom, 
+            rgba(0, 0, 0, 1) 0%, 
+            rgba(0, 0, 0, 1) 50%, 
+            rgba(0, 0, 0, 0.4) 75%, 
+            transparent 100%
+          )`,
+          WebkitMaskImage: `linear-gradient(to bottom, 
+            rgba(0, 0, 0, 1) 0%, 
+            rgba(0, 0, 0, 1) 50%, 
+            rgba(0, 0, 0, 0.4) 75%, 
+            transparent 100%
+          )`,
+        }}
+        aria-hidden='true'
       />
     </div>
-  );
+  )
 }

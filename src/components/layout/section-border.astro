@@ -6,11 +6,10 @@
  */
 
 interface Props {
-  class?: string;
+  class?: string
 }
 
-const { class: className } = Astro.props;
+const { class: className } = Astro.props
 ---
 
-<div class:list={["w-full h-px bg-border/30", className]}></div>
-
+<div class:list={['w-full h-px bg-border/30', className]}></div>
