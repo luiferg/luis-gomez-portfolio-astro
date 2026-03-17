@@ -1,0 +1,60 @@
+---
+/**
+ * Home Page
+ * Single-page portfolio
+ * Based on PRD v2.0
+ */
+
+import BaseLayout from '@/layouts/base-layout.astro';
+import Header from '@/components/layout/header.astro';
+import Footer from '@/components/layout/footer.astro';
+import EdgeGuides from '@/components/layout/edge-guides.astro';
+import SectionBorder from '@/components/layout/section-border.astro';
+import PixelFrame from '@/components/features/pixel-background/pixel-frame.astro';
+import { PixelBackground } from '@/components/features/pixel-background/pixel-background';
+import Hero from '@/components/sections/hero.astro';
+import Experience from '@/components/sections/experience.astro';
+import Contact from '@/components/sections/contact.astro';
+import { SITE_CONFIG } from '@/config/site';
+
+// Get pixel background mode from config
+const pixelMode = SITE_CONFIG.pixelBackgroundMode;
+---
+
+<BaseLayout>
+  <!-- Pixel Background (full-bleed mode) -->
+  {pixelMode === 'full-bleed' && (
+    <PixelBackground mode="full-bleed" client:load />
+  )}
+  
+  <!-- Edge guides for content sections -->
+  <EdgeGuides />
+  
+  <Header />
+  
+  <main>
+    <!-- Hero Section with Pixel Frame (framed mode) -->
+    {pixelMode === 'framed' ? (
+      <section class="py-12 md:py-24 h-svh flex">
+        <div class="container flex flex-1">
+          <PixelFrame>
+            <Hero />
+          </PixelFrame>
+        </div>
+      </section>
+    ) : (
+      /* Full-bleed mode: Hero without frame */
+      <Hero />
+    )}
+    
+    <SectionBorder />
+    
+    <Experience />
+    
+    <SectionBorder />
+    
+    <Contact />
+  </main>
+  
+  <Footer />
+</BaseLayout>

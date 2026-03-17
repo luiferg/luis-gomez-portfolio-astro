@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+  
+  <!-- Grid pattern -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#262626" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  
+  <!-- Content -->
+  <text x="600" y="280" font-family="monospace" font-size="72" font-weight="bold" fill="#fafafa" text-anchor="middle">
+    Luis Gómez
+  </text>
+  <text x="600" y="350" font-family="monospace" font-size="32" fill="#9a9a9a" text-anchor="middle">
+    Frontend Engineer
+  </text>
+  <text x="600" y="420" font-family="monospace" font-size="24" fill="#666666" text-anchor="middle">
+    Building systems that scale. Shipping products that matter.
+  </text>
+  
+  <!-- Accent line -->
+  <rect x="400" y="450" width="400" height="2" fill="#1a1625"/>
+</svg>

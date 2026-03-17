@@ -1,0 +1,42 @@
+---
+/**
+ * Contact Section
+ * Email + social links
+ */
+
+import { SOCIAL_LINKS } from '@/config/social';
+import { SITE_CONFIG } from '@/config/site';
+import { CopyEmail } from '@/components/features/copy-email/copy-email';
+---
+
+<section id="contact" class="py-24 md:py-32">
+  <div class="container">
+    <h2 class="font-mono text-2xl md:text-3xl font-bold mb-8">
+      Let's talk.
+    </h2>
+
+    <div class="flex flex-col gap-6">
+      <CopyEmail client:load />
+      
+      <div class="flex items-center gap-4 pt-4">
+        <a
+          href={SOCIAL_LINKS.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-mono text-muted hover:text-primary transition-colors"
+        >
+          GitHub
+        </a>
+        <span class="text-muted">/</span>
+        <a
+          href={SOCIAL_LINKS.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-mono text-muted hover:text-primary transition-colors"
+        >
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

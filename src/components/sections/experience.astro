@@ -1,0 +1,55 @@
+---
+/**
+ * Experience Section
+ * Metrics + mini case studies hybrid
+ * Based on PRD: scannable in 30 seconds
+ */
+
+import { EXPERIENCE } from '@/config/experience';
+---
+
+<section id="experience" class="py-24 md:py-32">
+  <div class="container">
+    <h2 class="font-mono text-2xl md:text-3xl font-bold mb-12">
+      Experience
+    </h2>
+
+    {/* Metrics */}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+      {EXPERIENCE.metrics.map((metric) => (
+        <div class="border-l-2 border-accent pl-6">
+          <div class="font-mono text-4xl md:text-5xl font-bold mb-2">
+            {metric.value}
+          </div>
+          <div class="font-mono text-lg text-primary mb-2">
+            {metric.label}
+          </div>
+          <p class="text-muted text-sm">
+            {metric.description}
+          </p>
+        </div>
+      ))}
+    </div>
+
+    {/* Impacts / Case Studies */}
+    <div class="space-y-8">
+      {EXPERIENCE.impacts.map((impact) => (
+        <article class="border border-border p-6 md:p-8 hover:border-accent transition-colors duration-300">
+          <h3 class="font-mono text-xl font-bold mb-3">
+            {impact.title}
+          </h3>
+          <p class="text-secondary mb-4 leading-relaxed">
+            {impact.description}
+          </p>
+          <div class="flex flex-wrap gap-2">
+            {impact.tags.map((tag) => (
+              <span class="font-mono text-xs px-3 py-1 bg-surface text-muted">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

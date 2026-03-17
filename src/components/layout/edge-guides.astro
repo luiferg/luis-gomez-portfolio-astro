@@ -1,0 +1,28 @@
+---
+/**
+ * Edge Guides Component
+ * Subtle left/right vertical lines for content sections
+ * Based on PRD: Replaces 12-column grid overlay
+ */
+
+interface Props {
+  show?: boolean;
+}
+
+const { show = true } = Astro.props;
+---
+
+{show && (
+  <div class="edge-guides fixed inset-0 pointer-events-none z-0 container">
+    {/* Left edge guide */}
+    <div class="hidden md:block absolute top-0 bottom-0 left-[var(--spacing-container-desktop)] w-px bg-border/30"></div>
+    {/* Right edge guide */}
+    <div class="hidden md:block absolute top-0 bottom-0 right-[var(--spacing-container-desktop)] w-px bg-border/30"></div>
+  </div>
+)}
+
+<style>
+  .edge-guides {
+    /* Subtle vertical lines aligned with content container */
+  }
+</style>

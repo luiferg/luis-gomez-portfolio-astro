@@ -1,0 +1,157 @@
+@import "tailwindcss";
+
+/* 
+ * Theme Configuration
+ * Based on PRD.md design system
+ * Using OKLCH for perceptual color accuracy
+ */
+
+@theme {
+  /* Colors - Deep blacks */
+  --color-background: oklch(0.09 0 0);
+  --color-surface: oklch(0.12 0 0);
+  --color-surface-elevated: oklch(0.15 0 0);
+
+  /* Accent - Dark purple-grey */
+  --color-accent: oklch(0.2 0.02 300);
+  --color-accent-hover: oklch(0.25 0.03 300);
+
+  /* Text - High contrast */
+  --color-primary: oklch(0.98 0 0);
+  --color-secondary: oklch(0.65 0 0);
+  --color-muted: oklch(0.45 0 0);
+
+  /* Borders */
+  --color-border: oklch(0.2 0 0);
+  --color-grid: oklch(0.15 0 0 / 50%);
+
+  /* Typography */
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+  --font-sans: "Geist", "Inter", system-ui, sans-serif;
+
+  /* Spacing */
+  --spacing-container: 1.5rem;
+  --spacing-container-desktop: 3rem;
+}
+
+/* Base styles */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  color: var(--color-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+code,
+pre,
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* Links */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 150ms ease-out;
+}
+
+a:hover {
+  color: var(--color-secondary);
+}
+
+/* Selection */
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-primary);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Grid overlay utility */
+.grid-overlay {
+  position: relative;
+}
+
+.grid-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    to right,
+    var(--color-grid) 1px,
+    transparent 1px
+  );
+  background-size: calc(100% / 12) 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: var(--spacing-container);
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-inline: var(--spacing-container-desktop);
+  }
+}
