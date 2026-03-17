@@ -1,0 +1,75 @@
+---
+/**
+ * Blog / Thoughts Listing Page
+ * Minimalist list of all blog posts
+ */
+
+import BaseLayout from '@/layouts/base-layout.astro';
+import Header from '@/components/layout/header.tsx';
+import Footer from '@/components/layout/footer.astro';
+import EdgeGuides from '@/components/layout/edge-guides.astro';
+import SectionBorder from '@/components/layout/section-border.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('thoughts', ({ data }) => {
+  return import.meta.env.PROD ? data.draft !== true : true;
+});
+
+// Sort by date, newest first
+posts.sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+
+function formatDate(date: Date): string {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+---
+
+<BaseLayout title="Thoughts | Luis Gómez" description="Thoughts on web development, architecture, and building software.">
+  <EdgeGuides />
+  <Header client:load />
+  
+  <main class="pt-24 pb-16">
+    <section class="container py-12">
+      <h1 class="font-mono text-4xl md:text-5xl font-bold mb-4">Thoughts</h1>
+      <p class="text-secondary text-lg mb-12">On building, shipping, and learning.</p>
+      
+      <div class="space-y-0">
+        {posts.map((post) => (
+          <article class="group border-t border-border py-8 hover:bg-surface/30 transition-colors">
+            <a href={`/blog/${post.id}`} class="block">
+              <div class="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2">
+                <h2 class="font-mono text-xl md:text-2xl font-bold group-hover:text-secondary transition-colors">
+                  {post.data.title}
+                </h2>
+                <time datetime={post.data.publishedAt.toISOString()} class="font-mono text-sm text-muted">
+                  {formatDate(post.data.publishedAt)}
+                </time>
+              </div>
+              <p class="text-secondary mt-2 max-w-2xl">
+                {post.data.description}
+              </p>
+              {post.data.tags && (
+                <div class="flex gap-2 mt-4">
+                  {post.data.tags.map((tag) => (
+                    <span class="font-mono text-xs px-2 py-1 bg-surface border border-border text-muted">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </a>
+          </article>
+        ))}
+      </div>
+      
+      {posts.length === 0 && (
+        <p class="text-muted">No posts yet.</p>
+      )}
+    </section>
+  </main>
+  
+  <Footer />
+</BaseLayout>

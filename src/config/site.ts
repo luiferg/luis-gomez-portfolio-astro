@@ -12,7 +12,7 @@ export const SITE_CONFIG = {
   locale: 'en',
   author: {
     name: 'Luis Gómez',
-    email: 'hello@luisgomez.dev',
+    email: 'luisfgomezortiz@gmail.com',
   },
 
   // Pixel background display mode

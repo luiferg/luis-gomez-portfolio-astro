@@ -9,8 +9,7 @@
 !.yarn/versions
 
 # production
-/build
-
+/dist
 
 # debug
 npm-debug.log*
@@ -26,3 +25,11 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# astro
+.astro/
+/astro
+
+# OS
+.DS_Store
+Thumbs.db

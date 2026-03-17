@@ -4,6 +4,7 @@
  * HTML shell with fonts, meta tags, and global styles
  */
 
+import { ClientRouter } from "astro:transitions";
 import { PAGE_SEO } from '@/config/seo'
 import '@/styles/global.css'
 
@@ -56,7 +57,7 @@ const siteUrl = 'https://luisgomez.dev'
     <meta property='twitter:image' content={ogImage} />
 
     <!-- View Transitions -->
-    <meta name='view-transition' content='same-origin' />
+    <ClientRouter />
 
     <!-- Fonts - JetBrains Mono -->
     <link rel='preconnect' href='https://fonts.googleapis.com' />
@@ -70,7 +71,7 @@ const siteUrl = 'https://luisgomez.dev'
       rel='stylesheet'
     />
   </head>
-  <body class='min-h-screen bg-background text-primary'>
+  <body class='min-h-screen bg-background text-primary' transition:animate="fade">
     <slot />
   </body>
 </html>

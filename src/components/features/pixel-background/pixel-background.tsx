@@ -30,9 +30,9 @@ interface Pixel {
 }
 
 // Purple tint color values from PRD
-const PIXEL_R = 40
-const PIXEL_G = 15
-const PIXEL_B = 80
+const PIXEL_R = 5
+const PIXEL_G = 5
+const PIXEL_B = 5
 
 export function PixelBackground({
   mode = 'guided',
