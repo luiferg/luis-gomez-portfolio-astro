@@ -27,7 +27,7 @@ type ExperienceData = {
 
 export const EXPERIENCE: ExperienceData = {
   summary:
-    '4+ years building web applications with React, TypeScript, and modern tooling. From inventory systems to SaaS platforms to education portals.',
+    '4+ years building web applications with React, TypeScript, and modern tooling. From inventory systems to SaaS platforms to education platforms.',
   metrics: [
     {
       value: '4',
@@ -52,10 +52,10 @@ export const EXPERIENCE: ExperienceData = {
       company: 'Clasing',
       role: 'Frontend Lead',
       description:
-        'Built comprehensive portals for students and teachers in an online language learning platform. Established best practices and coding standards that became the foundation for all future development.',
+        'Built comprehensive platforms for students and teachers in an online language learning platform. Established best practices and coding standards that became the foundation for all future development.',
       highlights: [
-        'Student portal: class booking, progress tracking, video calls, Duolingo-style exercises, AI chat, and voice/text AI modules',
-        'Teacher portal: availability management, class materials, student scoring, and group analytics',
+        'Student Platform: class booking, progress tracking, video calls, Duolingo-style exercises, AI chat, and voice/text AI modules',
+        'Teacher Platform: availability management, class materials, student scoring, and group analytics',
         'Reduced build times from 15 min to 2 min through architecture improvements',
         '5 complex modules, 25+ routes, serving ~24k users',
         'Established folder structure, E2E testing (Playwright), unit tests, and code standards',
