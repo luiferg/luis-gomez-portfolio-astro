@@ -1,7 +1,7 @@
 ---
 title: "The Art of Technical Decisions"
 description: "How to make better architectural choices when building web applications"
-publishedAt: 2026-02-28
+publishedAt: 2026-02-15
 tags: ["architecture", "frontend", "decision-making"]
 ---
 
@@ -20,12 +20,15 @@ We like to think engineers make rational decisions based on data. Sometimes we d
 After 4+ years of building, here's what I've learned matters:
 
 ### 1. Team Capacity
+
 The best architecture is what your team can maintain. A brilliant system nobody understands is technical debt.
 
 ### 2. Business Timeline
+
 Perfect is the enemy of done. Ship something that works, then iterate.
 
 ### 3. Real User Impact
+
 Will this change actually matter to someone using the product? Or is it engineer satisfaction?
 
 ## My Framework

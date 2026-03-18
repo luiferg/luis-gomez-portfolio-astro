@@ -1,7 +1,7 @@
 ---
 title: "AI in My Dev Workflow: From Skeptic to Bullish"
 description: "I used to think AI code generation was trash. Turns out, I was using it wrong."
-publishedAt: 2026-03-18
+publishedAt: 2026-02-28
 tags: ["AI", "Workflow", "Opinion"]
 ---
 

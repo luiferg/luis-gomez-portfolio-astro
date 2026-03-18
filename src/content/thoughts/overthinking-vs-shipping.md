@@ -1,7 +1,7 @@
 ---
 title: "Overthinking vs. Shipping: When to Sweat the Details"
 description: "Lost a deal because we didn't ship fast enough. Changed how I think about velocity."
-publishedAt: 2026-03-18
+publishedAt: 2026-03-09
 tags: ["Career", "Opinion", "Process"]
 ---
 
