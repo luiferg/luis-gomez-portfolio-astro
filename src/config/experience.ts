@@ -139,7 +139,7 @@ export const EXPERIENCE: ExperienceData = {
       tags: ['MongoDB', 'Express', 'React', 'Node.js'],
     },
   ],
-} as const
+}
 
 export type Metric = (typeof EXPERIENCE.metrics)[number]
 export type Impact = (typeof EXPERIENCE.impacts)[number]

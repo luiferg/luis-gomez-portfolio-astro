@@ -7,6 +7,7 @@
 
 import { EXPERIENCE } from '@/config/experience'
 import { ExperienceCard } from '@/components/sections/experience-card'
+import { cn } from '@/lib/utils'
 ---
 
 <section id='experience' class='py-24 md:py-32'>
@@ -16,8 +17,8 @@ import { ExperienceCard } from '@/components/sections/experience-card'
     {/* Metrics */}
     <div class='grid grid-cols-1 md:grid-cols-3 gap-8 mb-16'>
       {
-        EXPERIENCE.metrics.map((metric) => (
-          <div class='border-l-2 border-accent pl-6'>
+        EXPERIENCE.metrics.map((metric, index) => (
+          <div class={cn(' border-accent md:pl-8', index > 0 && 'md:border-l')}>
             <div class='font-mono text-4xl md:text-5xl font-bold mb-2'>
               {metric.value}
             </div>
@@ -33,7 +34,7 @@ import { ExperienceCard } from '@/components/sections/experience-card'
     {/* Impacts / Case Studies */}
     <div class='space-y-4'>
       {
-        EXPERIENCE.impacts.map((impact) => (
+        EXPERIENCE.impacts.map((impact, index) => (
           <ExperienceCard
             client:visible
             title={impact.title}
@@ -42,6 +43,9 @@ import { ExperienceCard } from '@/components/sections/experience-card'
             description={impact.description}
             highlights={impact.highlights}
             tags={impact.tags}
+            className={cn(
+              index === EXPERIENCE.impacts.length - 1 && 'border-b',
+            )}
           />
         ))
       }

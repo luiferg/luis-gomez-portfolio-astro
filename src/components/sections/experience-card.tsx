@@ -2,9 +2,11 @@
  * Experience Card Component
  * Expandable card showing experience details
  * Following Emil's approach: fast, subtle, purposeful
+ * Accessible disclosure pattern (WAI-ARIA)
  */
 
-import { useState } from 'react'
+import { cn } from '@/lib/utils'
+import { useState, useId } from 'react'
 
 interface ExperienceCardProps {
   title: string
@@ -13,6 +15,7 @@ interface ExperienceCardProps {
   description: string
   highlights: string[]
   tags: string[]
+  className?: string
 }
 
 export function ExperienceCard({
@@ -22,16 +25,27 @@ export function ExperienceCard({
   description,
   highlights,
   tags,
+  className,
 }: ExperienceCardProps) {
   const [isExpanded, setIsExpanded] = useState(false)
+  const baseId = useId()
+  const contentId = `${baseId}-content`
+  const headingId = `${baseId}-heading`
 
   return (
-    <article className='border border-border hover:border-accent/50 transition-colors duration-200'>
+    <article
+      className={cn(
+        'border-t border-accent/50 transition-colors duration-200',
+        className,
+      )}
+    >
       <button
         type='button'
+        id={headingId}
         onClick={() => setIsExpanded(!isExpanded)}
         className='w-full text-left p-6 md:p-8 group'
         aria-expanded={isExpanded}
+        aria-controls={contentId}
       >
         {/* Header row */}
         <div className='flex flex-col md:flex-row md:items-baseline md:justify-between gap-2 mb-3'>
@@ -67,24 +81,30 @@ export function ExperienceCard({
         </div>
       </button>
 
-      {/* Expanded content */}
+      {/* Expanded content - uses CSS grid for smooth animation */}
       <div
-        className={`overflow-hidden transition-all duration-200 ease-out ${
-          isExpanded ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
-        }`}
+        id={contentId}
+        role='region'
+        aria-labelledby={headingId}
+        className='grid transition-all duration-200 ease-out'
+        style={{
+          gridTemplateRows: isExpanded ? '1fr' : '0fr',
+        }}
       >
-        <div className='px-6 md:px-8 pb-6 md:pb-8 border-t border-border/50 pt-6'>
-          <h4 className='font-mono text-sm font-bold text-primary mb-4'>
-            Key Contributions
-          </h4>
-          <ul className='space-y-3'>
-            {highlights.map((highlight, index) => (
-              <li key={index} className='flex gap-3 text-sm text-secondary'>
-                <span className='text-accent mt-1 shrink-0'>•</span>
-                <span>{highlight}</span>
-              </li>
-            ))}
-          </ul>
+        <div className='overflow-hidden'>
+          <div className='px-6 md:px-8 pb-6 md:pb-8 border-t border-border/30 pt-6'>
+            <h4 className='font-mono text-sm font-bold text-primary mb-4'>
+              Key Contributions
+            </h4>
+            <ul className='space-y-3'>
+              {highlights.map((highlight, index) => (
+                <li key={index} className='flex gap-3 text-sm text-secondary'>
+                  <span className='text-accent mt-1 shrink-0'>•</span>
+                  <span>{highlight}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </article>
