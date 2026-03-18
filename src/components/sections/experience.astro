@@ -34,7 +34,10 @@ import { EXPERIENCE } from '@/config/experience'
       {
         EXPERIENCE.impacts.map((impact) => (
           <article class='border border-border p-6 md:p-8 hover:border-accent transition-colors duration-300'>
-            <h3 class='font-mono text-xl font-bold mb-3'>{impact.title}</h3>
+            <div class='flex flex-col md:flex-row md:items-baseline md:justify-between gap-1 mb-3'>
+              <h3 class='font-mono text-xl font-bold'>{impact.title}</h3>
+              <span class='font-mono text-sm text-muted'>{impact.company}</span>
+            </div>
             <p class='text-secondary mb-4 leading-relaxed'>
               {impact.description}
             </p>
