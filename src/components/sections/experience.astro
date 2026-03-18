@@ -6,6 +6,7 @@
  */
 
 import { EXPERIENCE } from '@/config/experience'
+import Tag from '@/components/ui/tag.astro'
 ---
 
 <section id='experience' class='py-24 md:py-32'>
@@ -43,9 +44,7 @@ import { EXPERIENCE } from '@/config/experience'
             </p>
             <div class='flex flex-wrap gap-2'>
               {impact.tags.map((tag) => (
-                <span class='font-mono text-xs px-3 py-1 bg-surface text-muted'>
-                  {tag}
-                </span>
+                <Tag label={tag} />
               ))}
             </div>
           </article>

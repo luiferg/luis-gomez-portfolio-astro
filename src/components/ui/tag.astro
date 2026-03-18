@@ -1,0 +1,22 @@
+---
+/**
+ * Tag Component
+ * Minimal badge/tag for labels and metadata
+ */
+
+interface Props {
+  label: string;
+  class?: string;
+}
+
+const { label, class: className } = Astro.props;
+---
+
+<span 
+  class:list={[
+    "font-mono text-xs px-2 py-1 bg-surface text-muted",
+    className
+  ]}
+>
+  {label}
+</span>
