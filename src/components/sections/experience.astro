@@ -1,12 +1,12 @@
 ---
 /**
  * Experience Section
- * Metrics + mini case studies hybrid
+ * Metrics + expandable case studies
  * Based on PRD: scannable in 30 seconds
  */
 
 import { EXPERIENCE } from '@/config/experience'
-import Tag from '@/components/ui/tag.astro'
+import { ExperienceCard } from '@/components/sections/experience-card'
 ---
 
 <section id='experience' class='py-24 md:py-32'>
@@ -31,23 +31,18 @@ import Tag from '@/components/ui/tag.astro'
     </div>
 
     {/* Impacts / Case Studies */}
-    <div class='space-y-8'>
+    <div class='space-y-4'>
       {
         EXPERIENCE.impacts.map((impact) => (
-          <article class='border border-border p-6 md:p-8 hover:border-accent transition-colors duration-300'>
-            <div class='flex flex-col md:flex-row md:items-baseline md:justify-between gap-1 mb-3'>
-              <h3 class='font-mono text-xl font-bold'>{impact.title}</h3>
-              <span class='font-mono text-sm text-muted'>{impact.company}</span>
-            </div>
-            <p class='text-secondary mb-4 leading-relaxed'>
-              {impact.description}
-            </p>
-            <div class='flex flex-wrap gap-2'>
-              {impact.tags.map((tag) => (
-                <Tag label={tag} />
-              ))}
-            </div>
-          </article>
+          <ExperienceCard
+            client:visible
+            title={impact.title}
+            company={impact.company}
+            role={impact.role}
+            description={impact.description}
+            highlights={impact.highlights}
+            tags={impact.tags}
+          />
         ))
       }
     </div>

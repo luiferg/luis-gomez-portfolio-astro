@@ -4,8 +4,6 @@
  * Following Emil's approach: subtle, fast, purposeful
  */
 
-'use client'
-
 import { useRef } from 'react'
 import { motion, useInView, type HTMLMotionProps } from 'motion/react'
 

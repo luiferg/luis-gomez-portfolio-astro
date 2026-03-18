@@ -8,8 +8,6 @@
  * - 'none': No pixel background
  */
 
-'use client'
-
 import { cn } from '@/lib/utils'
 import { useEffect, useRef, useCallback, useState } from 'react'
 
