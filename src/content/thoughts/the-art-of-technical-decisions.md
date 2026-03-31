@@ -17,7 +17,7 @@ We like to think engineers make rational decisions based on data. Sometimes we d
 
 ## What Actually Matters
 
-After 4+ years of building, here's what I've learned matters:
+After 5+ years of building, here's what I've learned matters:
 
 ### 1. Team Capacity
 
