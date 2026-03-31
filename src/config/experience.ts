@@ -27,7 +27,7 @@ type ExperienceData = {
 
 export const EXPERIENCE: ExperienceData = {
   summary:
-    '4+ years building web applications with React, TypeScript, and modern tooling. From inventory systems to SaaS platforms to education platforms.',
+    '5+ years building web applications with React, TypeScript, and modern tooling. From inventory systems to SaaS platforms to education platforms.',
   metrics: [
     {
       value: '4',
@@ -40,7 +40,7 @@ export const EXPERIENCE: ExperienceData = {
       description: 'UI component library across multiple projects',
     },
     {
-      value: '4+',
+      value: '5+',
       label: 'Years Experience',
       description: 'Frontend development with React ecosystem',
     },
