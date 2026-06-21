@@ -1,0 +1,35 @@
+---
+import BaseLayout from "@/layouts/base-layout.astro"
+import { getBriefByPublicId } from "@/lib/brief/queries"
+import { getDict } from "@/lib/i18n"
+import { DEFAULT_LOCALE } from "@/lib/brief-schemas/locale"
+
+export const prerender = false
+
+const { id } = Astro.params
+
+const brief = id ? await getBriefByPublicId(id) : null
+const locale = brief?.language ?? DEFAULT_LOCALE
+const dict = getDict(locale)
+---
+
+<BaseLayout title={dict.thanks.title}>
+  <main>
+    <section class="container py-24 md:py-32">
+      <div class="mx-auto max-w-md flex flex-col gap-6 text-center">
+        <h1 class="font-mono text-3xl md:text-4xl font-bold">
+          {dict.thanks.title}
+        </h1>
+        <p class="font-mono text-sm text-secondary">{dict.thanks.body}</p>
+        <div class="pt-4">
+          <a
+            href="/"
+            class="font-mono text-sm text-muted underline hover:text-primary"
+          >
+            {dict.thanks.backHome}
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
