@@ -12,17 +12,27 @@
   --color-surface: oklch(0.12 0 0);
   --color-surface-elevated: oklch(0.15 0 0);
 
-  /* Accent - Dark purple-grey */
+  /* Decorative accent — subtle separators, focus rings, hover backgrounds,
+     and "currently active section" markers. Stays dark by design. */
   --color-accent: oklch(0.2 0.02 300);
   --color-accent-hover: oklch(0.25 0.03 300);
 
+  /* Form-accent — used ONLY for active selection in form controls
+     (radio fill, checkbox fill, selected option border). Brutalist white
+     so the client immediately sees what they chose. */
+  --color-form-accent: oklch(0.98 0 0);
+  --color-form-accent-contrast: oklch(0.09 0 0);  /* for the inner mark/icon on top */
+
   /* Text - High contrast */
   --color-primary: oklch(0.98 0 0);
-  --color-secondary: oklch(0.65 0 0);
-  --color-muted: oklch(0.45 0 0);
+  --color-secondary: oklch(0.75 0 0);    /* was 0.65 — improved AA contrast */
+  --color-muted: oklch(0.62 0 0);        /* was 0.45 (2.78:1) — now ~5.8:1 (passes AA) */
+
+  /* Required-field marker. Soft red, readable on the dark surface. */
+  --color-required: oklch(0.72 0.18 25);
 
   /* Borders */
-  --color-border: oklch(0.2 0 0);
+  --color-border: oklch(0.25 0 0);       /* was 0.2 — a hair stronger so inputs read as inputs */
   --color-grid: oklch(0.15 0 0 / 50%);
 
   /* Typography */

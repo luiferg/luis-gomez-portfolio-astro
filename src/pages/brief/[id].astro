@@ -1,0 +1,72 @@
+---
+import BaseLayout from "@/layouts/base-layout.astro"
+import { getBriefByPublicId } from "@/lib/brief/queries"
+import {
+  cookieNameForBrief,
+  verifyUnlockCookie,
+} from "@/lib/brief/unlock-cookie"
+import { AccessCodeGate } from "@/components/features/brief/access-code-gate"
+import { BriefForm } from "@/components/features/brief/brief-form"
+import { getDict } from "@/lib/i18n"
+import { DEFAULT_LOCALE } from "@/lib/brief-schemas/locale"
+
+export const prerender = false
+
+const { id } = Astro.params
+
+if (!id) {
+  return Astro.redirect("/")
+}
+
+const brief = await getBriefByPublicId(id)
+
+if (!brief) {
+  Astro.response.status = 404
+}
+
+const cookieValue = Astro.cookies.get(cookieNameForBrief(id))?.value
+const unlocked = brief && verifyUnlockCookie(id, cookieValue)
+const locale = brief?.language ?? DEFAULT_LOCALE
+const dict = getDict(locale)
+---
+
+<BaseLayout title="Brief">
+  <main>
+    {
+      !brief ? (
+        <section class="container py-24">
+          <div class="mx-auto max-w-md flex flex-col gap-4">
+            <h1 class="font-mono text-2xl font-bold">{dict.notFound.title}</h1>
+            <p class="font-mono text-sm text-muted">{dict.notFound.body}</p>
+            <a
+              href="/"
+              class="font-mono text-sm text-secondary underline hover:text-primary"
+            >
+              {dict.notFound.backHome}
+            </a>
+          </div>
+        </section>
+      ) : unlocked ? (
+        <div transition:name="brief-content">
+          <BriefForm
+            client:load
+            publicId={brief.public_id}
+            clientName={brief.client_name}
+            schema={brief.schema_snapshot}
+            locale={locale}
+          />
+        </div>
+      ) : (
+        <div transition:name="brief-content">
+          <AccessCodeGate
+            client:load
+            publicId={brief.public_id}
+            clientName={brief.client_name}
+            templateName={brief.schema_snapshot.name}
+            locale={locale}
+          />
+        </div>
+      )
+    }
+  </main>
+</BaseLayout>
