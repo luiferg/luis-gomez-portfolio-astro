@@ -35,7 +35,7 @@ export function ExperienceCard({
   return (
     <article
       className={cn(
-        'border-t border-accent/50 transition-colors duration-200',
+        'border-t border-border/50 transition-colors duration-200',
         className,
       )}
     >
@@ -73,7 +73,7 @@ export function ExperienceCard({
         </div>
 
         {/* Expand indicator */}
-        <div className='flex items-center justify-between mt-4 pt-4 border-t border-border/50'>
+        <div className='flex items-center justify-between mt-4 pt-4 border-t border-border/30'>
           <span className='font-mono text-xs text-muted'>{role}</span>
           <span className='font-mono text-xs text-muted group-hover:text-secondary transition-colors duration-200'>
             {isExpanded ? 'Less ↑' : 'More ↓'}
@@ -92,7 +92,7 @@ export function ExperienceCard({
         }}
       >
         <div className='overflow-hidden'>
-          <div className='px-6 md:px-8 pb-6 md:pb-8 border-t border-border/30 pt-6'>
+          <div className='px-6 md:px-8 pb-6 md:pb-8 border-t border-border/30 border-dashed pt-6'>
             <h4 className='font-mono text-sm font-bold text-primary mb-4'>
               Key Contributions
             </h4>
