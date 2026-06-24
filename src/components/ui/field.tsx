@@ -70,7 +70,11 @@ export function Label({
     >
       {children}
       {required ? (
-        <span aria-hidden="true" className="text-accent">
+        <span
+          aria-hidden="true"
+          className="text-red-400"
+          title="Campo obligatorio"
+        >
           *
         </span>
       ) : null}

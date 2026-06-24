@@ -28,6 +28,8 @@ export const es: Dict = {
       remove: "quitar",
     },
     selectPlaceholder: "Selecciona una opci\u00f3n",
+    jumpToSection: "Ir a una secci\u00f3n",
+    sectionsHeader: "Secciones",
   },
   thanks: {
     title: "Recibido.",

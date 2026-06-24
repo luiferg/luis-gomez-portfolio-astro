@@ -77,7 +77,9 @@ function buildQuestionSchema(
     case "select":
     case "radio": {
       const allowed = q.options.map((o) => o.value) as [string, ...string[]]
-      const s = z.enum(allowed)
+      // Map both "no value" and "invalid value" to the localized required
+      // message — clients should never see the technical enum diagnostic.
+      const s = z.enum(allowed, { error: () => m.required })
       base = q.required ? s : s.optional()
       break
     }

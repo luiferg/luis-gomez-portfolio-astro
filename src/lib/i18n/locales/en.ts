@@ -25,6 +25,8 @@ export type Dict = {
       remove: string
     }
     selectPlaceholder: string
+    jumpToSection: string
+    sectionsHeader: string
   }
   thanks: {
     title: string
@@ -72,6 +74,8 @@ export const en: Dict = {
       remove: "remove",
     },
     selectPlaceholder: "Select an option",
+    jumpToSection: "Jump to section",
+    sectionsHeader: "Sections",
   },
   thanks: {
     title: "Got it.",

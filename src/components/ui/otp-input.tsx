@@ -109,6 +109,8 @@ export function OTPInput({
           inputMode='numeric'
           autoComplete='one-time-code'
           maxLength={1}
+          // Autofocus first box on mount so the user can type immediately.
+          autoFocus={idx === 0}
           value={internal[idx] ?? ''}
           onChange={(e) => onInput(e, idx)}
           onKeyDown={(e) => onKeyDown(e, idx)}

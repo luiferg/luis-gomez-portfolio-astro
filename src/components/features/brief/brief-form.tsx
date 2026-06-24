@@ -9,6 +9,8 @@ import type { Locale } from "@/lib/brief-schemas/locale"
 import { getDict } from "@/lib/i18n"
 import { QuestionField } from "./question-field"
 import { RelockOverlay } from "./relock-overlay"
+import { BriefSectionNav } from "./brief-section-nav"
+import { BriefSectionJump } from "./brief-section-jump"
 
 type Props = {
   publicId: string
@@ -21,6 +23,8 @@ type SubmitOutcome =
   | { kind: "success" }
   | { kind: "locked" }
   | { kind: "error"; message: string }
+
+const SECTION_ID_PREFIX = "section-"
 
 export function BriefForm({ publicId, clientName, schema, locale }: Props) {
   const t = getDict(locale)
@@ -101,13 +105,19 @@ export function BriefForm({ publicId, clientName, schema, locale }: Props) {
     }
   }
 
+  const totalQuestions = schema.sections.reduce(
+    (acc, s) => acc + s.questions.filter((q) => q.type !== "heading").length,
+    0,
+  )
+
   return (
     <FormProvider {...methods}>
       <form
         onSubmit={methods.handleSubmit(onFormSubmit)}
-        className="container py-12 md:py-16"
+        className="container py-8 md:py-16"
       >
-        <header className="max-w-2xl mb-12 flex flex-col gap-2">
+        {/* Header */}
+        <header className="mb-8 md:mb-12 flex flex-col gap-2 max-w-3xl">
           <p className="font-mono text-xs uppercase text-muted">
             {t.form.eyebrow}
           </p>
@@ -116,41 +126,79 @@ export function BriefForm({ publicId, clientName, schema, locale }: Props) {
           </h1>
           <p className="font-mono text-sm text-secondary">{schema.name}</p>
           {schema.description ? (
-            <p className="font-mono text-sm text-muted mt-2 max-w-prose">
+            <p className="font-mono text-sm text-muted mt-2 max-w-prose whitespace-pre-wrap">
               {schema.description}
             </p>
           ) : null}
+          <p className="font-mono text-xs text-muted mt-2">
+            {schema.sections.length} {schema.sections.length === 1 ? "secci\u00f3n" : "secciones"}
+            {" \u00b7 "}
+            {totalQuestions} {totalQuestions === 1 ? "pregunta" : "preguntas"}
+          </p>
         </header>
 
-        <div className="max-w-2xl flex flex-col gap-12">
-          {schema.sections.map((section) => (
-            <section key={section.id} className="flex flex-col gap-6">
-              <div className="flex flex-col gap-1 border-b border-border pb-3">
-                <h2 className="font-mono text-xl font-bold text-primary">
-                  {section.title}
-                </h2>
-                {section.intro ? (
-                  <p className="font-mono text-sm text-muted whitespace-pre-wrap">
-                    {section.intro}
-                  </p>
-                ) : null}
-              </div>
-              <div className="flex flex-col gap-6">
-                {section.questions.map((q) => (
-                  <QuestionField key={q.id} question={q} locale={locale} />
-                ))}
-              </div>
-            </section>
-          ))}
+        {/* Mobile section jumper — visible only below lg */}
+        <div className="mb-8 lg:hidden">
+          <BriefSectionJump
+            sections={schema.sections}
+            idPrefix={SECTION_ID_PREFIX}
+            label={t.form.jumpToSection}
+          />
+        </div>
 
-          <footer className="flex flex-col gap-3 border-t border-border pt-6">
-            <FieldError>{submitError}</FieldError>
-            <div className="flex justify-end">
-              <Button type="submit" loading={isSubmitting}>
+        {/* Sidebar + main */}
+        <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-8 lg:gap-12">
+          {/* Sidebar (sticky, desktop only) */}
+          <aside className="hidden lg:block">
+            <div className="sticky top-8">
+              <BriefSectionNav
+                sections={schema.sections}
+                idPrefix={SECTION_ID_PREFIX}
+              />
+            </div>
+          </aside>
+
+          {/* Main column */}
+          <div className="min-w-0 max-w-2xl flex flex-col gap-12">
+            {schema.sections.map((section, idx) => (
+              <section
+                key={section.id}
+                id={SECTION_ID_PREFIX + section.id}
+                className="flex flex-col gap-6 scroll-mt-8"
+              >
+                <div className="flex flex-col gap-1 border-b border-border pb-3">
+                  <p className="font-mono text-[10px] uppercase tracking-wider text-muted">
+                    {String(idx + 1).padStart(2, "0")} / {String(schema.sections.length).padStart(2, "0")}
+                  </p>
+                  <h2 className="font-mono text-xl font-bold text-primary">
+                    {section.title}
+                  </h2>
+                  {section.intro ? (
+                    <p className="font-mono text-sm text-muted whitespace-pre-wrap mt-1">
+                      {section.intro}
+                    </p>
+                  ) : null}
+                </div>
+                <div className="flex flex-col gap-6">
+                  {section.questions.map((q) => (
+                    <QuestionField key={q.id} question={q} locale={locale} />
+                  ))}
+                </div>
+              </section>
+            ))}
+
+            {/* Submit footer */}
+            <footer className="flex flex-col gap-3 border-t border-border pt-6">
+              <FieldError>{submitError}</FieldError>
+              <Button
+                type="submit"
+                loading={isSubmitting}
+                className="w-full sm:w-auto sm:self-end sm:px-8 py-3 text-base"
+              >
                 {t.form.submit}
               </Button>
-            </div>
-          </footer>
+            </footer>
+          </div>
         </div>
       </form>
 
