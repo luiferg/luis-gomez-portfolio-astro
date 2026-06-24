@@ -17,6 +17,9 @@ export function getResend(): Resend | null {
 export function getEmailConfig() {
   return {
     from: import.meta.env.EMAIL_FROM ?? "notifications@luisgomez.dev",
+    // Optional: where client replies land. Resend requires `from` to use a
+    // verified domain, but reply_to can be anything (e.g. your personal Gmail).
+    replyTo: import.meta.env.EMAIL_REPLY_TO as string | undefined,
     adminEmail: import.meta.env.ADMIN_NOTIFICATION_EMAIL,
     portfolioUrl:
       import.meta.env.PORTFOLIO_PUBLIC_URL ?? "https://luisgomez.dev",

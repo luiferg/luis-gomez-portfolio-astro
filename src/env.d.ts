@@ -7,6 +7,7 @@ interface ImportMetaEnv {
   readonly BRIEF_COOKIE_SECRET: string
   readonly RESEND_API_KEY?: string
   readonly EMAIL_FROM?: string
+  readonly EMAIL_REPLY_TO?: string
   readonly ADMIN_NOTIFICATION_EMAIL?: string
   readonly BRIEFING_ADMIN_URL?: string
   readonly PORTFOLIO_PUBLIC_URL?: string

@@ -38,6 +38,7 @@ export async function sendResponseEmails(args: Args): Promise<void> {
         .send({
           from: cfg.from,
           to: args.clientEmail,
+          ...(cfg.replyTo ? { replyTo: cfg.replyTo } : {}),
           subject: tpl.subject,
           html: tpl.html,
           text: tpl.text,
